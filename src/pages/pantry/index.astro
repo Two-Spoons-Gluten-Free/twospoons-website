@@ -1,0 +1,13 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Icon from '../../components/Icon.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import NewsletterCTA from '../../components/NewsletterCTA.astro';
+import {products} from '../../data/products';
+---
+<Layout title="Our Pantry" description="Explore the gluten-free cookies, banana bread, and seasoning blends we’re developing in the Two Spoons family kitchen.">
+  <div class="container"><header class="page-intro"><span class="eyebrow">A FEW GOOD THINGS, MADE WITH HEART</span><h1>A little pantry.<br/><em>Big possibilities.</em></h1><p>Sweet treats, easy baking, and flavorful cooking. We’re dreaming up everyday gluten-free favorites worth making room for.</p></header>
+  <div class="notice catalog-note"><Icon name="sun"/><div><strong>Our first batches are still taking shape.</strong><p>These are the three product lines we’re developing. You can send an order request now; we’ll confirm the exact product, ingredients, price, and timing before anything is final.</p></div></div>
+  <section class="content-section" aria-label="Our product lines"><div class="product-grid">{products.map(product=><ProductCard product={product}/>)}</div><p class="illustration-note">Food photography shows illustrative serving ideas. Final products and packaging may differ.</p><div class="button-row" style="margin-top:35px"><a class="button" href="/order">Buy Now <Icon name="bag" size={18}/></a><a class="text-link" href="/our-approach">A little about our approach <Icon size={18}/></a></div></section>
+  <section class="faq-section" style="padding-top:0"><h2>A few things you <em>might wonder.</em></h2><details class="faq"><summary>Can I place an order yet?</summary><p>Yes—you can send us an order request through <a href="/order">Buy Now</a>. We’re still developing the first lineup, so your request is not a confirmed purchase. We’ll be in touch about availability, final product details, and pricing. No payment is collected here.</p></details><details class="faq"><summary>Where are the ingredients and allergen details?</summary><p>Recipes are still in development, so we haven’t published final ingredient or allergen lists. We’ll provide those details before confirming your order. Our gluten-free focus does not mean our products are free from other allergens.</p></details><details class="faq"><summary>Will you offer local pickup or delivery?</summary><p>We offer local pickup in Haymarket. Once we are officially in business, we plan to deliver throughout Virginia where permitted under Virginia law. You can tell us your preference in your order request, and we’ll confirm the arrangements with you before your order is final.</p></details></section></div><NewsletterCTA/>
+</Layout>

@@ -1,0 +1,23 @@
+---
+import Icon from './Icon.astro';
+const links = [['Our Pantry','/pantry'],['Recipes','/recipes'],['Our Story','/our-story'],['Our Approach','/our-approach'],['Find Us','/find-us']];
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+<div class="announcement"><span>From our family kitchen to your next happy bite.</span><span class="announcement-location"><Icon name="pin" size={13}/> Haymarket, Virginia</span></div>
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="wordmark wordmark-logo" href="/" aria-label="Two Spoons home"><img src="/images/Two%20Spoons.png" alt="Two Spoons" width="768" height="768"/></a><span class="header-kicker"><small>Made with heart</small>Gluten-free<br/>family kitchen</span>
+    <nav class="desktop-nav" aria-label="Main navigation">{links.map(([label, href])=><a href={href} aria-current={path.startsWith(href) ? 'page' : undefined}>{label}</a>)}</nav>
+    <div class="nav-actions"><a class="signup-link" href="/join">Sign Up <Icon name="mail" size={17}/></a><a class="button button-small" href="/order">Buy Now <Icon name="bag" size={17}/></a></div>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation"><Icon name="menu" size={25}/></button>
+  </div>
+  <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" hidden>{links.map(([label,href])=><a href={href} aria-current={path.startsWith(href)?'page':undefined}>{label}<Icon /></a>)}<a href="/contact">Say hello <Icon name="mail"/></a><a href="/join">Newsletter Sign Up <Icon name="arrow"/></a></nav>
+</header>
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const nav = document.querySelector<HTMLElement>('#mobile-nav');
+  function closeMenu() { if (!toggle || !nav) return; nav.hidden = true; toggle.setAttribute('aria-expanded','false'); toggle.setAttribute('aria-label','Open navigation'); }
+  toggle?.addEventListener('click',()=> { if(!nav) return; const open = toggle.getAttribute('aria-expanded') !== 'true'; toggle.setAttribute('aria-expanded',String(open)); toggle.setAttribute('aria-label',open ? 'Close navigation' : 'Open navigation'); nav.hidden = !open; });
+  document.addEventListener('keydown',(e)=>{if(e.key==='Escape' && nav && !nav.hidden){closeMenu();toggle?.focus();}});
+  window.matchMedia('(min-width: 1051px)').addEventListener('change',(e)=>{if(e.matches)closeMenu();});
+</script>

@@ -1,0 +1,121 @@
+<script>
+  type FormKind = 'signup' | 'contact' | 'orders';
+  const productNames: Record<string,string> = {'chocolate-chip-cookies':'Chocolate chip cookies','banana-bread':'Banana bread','all-purpose-seasoning':'All-purpose seasoning','taco-seasoning':'Taco seasoning','cajun-blackening-seasoning':'Cajun & blackening seasoning'};
+  const quantities = [...document.querySelectorAll<HTMLInputElement>('[data-product-quantity]')];
+  document.querySelectorAll<HTMLElement>('.order-product p').forEach(status => {
+    status.classList.add('first-batch-status');
+    status.textContent = 'First batch in the works · Be among the first to taste it';
+  });
+  const deliveryFrequencies = ['weekly','biweekly','monthly','quarterly'];
+  const seasoningProducts = new Set(['all-purpose-seasoning','taco-seasoning','cajun-blackening-seasoning']);
+  const defaultFrequencies: Record<string,string> = {'chocolate-chip-cookies':'weekly','banana-bread':'weekly','all-purpose-seasoning':'quarterly','taco-seasoning':'quarterly','cajun-blackening-seasoning':'quarterly'};
+  const frequencyControls = new Map<string,HTMLSelectElement>();
+  for(const input of quantities){
+    const slug = input.dataset.productQuantity || '';
+    const row = input.closest<HTMLElement>('.order-product');
+    if(!row || !slug)continue;
+    const control = document.createElement('div');
+    control.className = 'delivery-frequency';
+    const label = document.createElement('label');
+    label.htmlFor = `frequency-${slug}`;
+    label.textContent = `Delivery frequency for ${productNames[slug]}`;
+    const select = document.createElement('select');
+    select.id = `frequency-${slug}`;
+    select.dataset.productFrequency = slug;
+    for(const frequency of [...deliveryFrequencies,...(seasoningProducts.has(slug) ? ['yearly'] : [])]){
+      const option = document.createElement('option');
+      option.value = frequency;
+      option.textContent = frequency[0].toUpperCase() + frequency.slice(1);
+      option.selected = frequency === defaultFrequencies[slug];
+      select.append(option);
+    }
+    select.addEventListener('change',updateOrder);
+    control.append(label,select);
+    row.insertAdjacentElement('afterend',control);
+    frequencyControls.set(slug,select);
+  }
+  const orderForm = document.querySelector<HTMLFormElement>('form[data-kind="orders"]');
+  const clampQuantity = (value:string) => Math.max(0, Math.min(20, Math.floor(Number(value)||0)));
+  function updateOrder() {
+    const list = document.querySelector<HTMLElement>('[data-summary-items]');
+    const empty = document.querySelector<HTMLElement>('[data-summary-empty]');
+    if(!list || !empty) return;
+    list.replaceChildren();
+    let count = 0;
+    for(const input of quantities){
+      const quantity = clampQuantity(input.value);
+      const slug = input.dataset.productQuantity || '';
+      const minus = document.querySelector<HTMLButtonElement>(`[data-change="-1"][data-for="${input.id}"]`);
+      const plus = document.querySelector<HTMLButtonElement>(`[data-change="1"][data-for="${input.id}"]`);
+      const frequency = frequencyControls.get(slug);
+      if(minus)minus.disabled=quantity===0;
+      if(plus)plus.disabled=quantity===20;
+      if(frequency){frequency.disabled=!quantity;frequency.closest<HTMLElement>('.delivery-frequency')?.toggleAttribute('hidden',!quantity);}
+      if(!quantity)continue;
+      count += quantity;
+      const li = document.createElement('li');
+      const name = document.createElement('span'); name.textContent = `${productNames[slug]} · ${frequency?.value || 'weekly'}`;
+      const amount = document.createElement('strong'); amount.textContent = `× ${quantity}`;
+      li.append(name,amount);list.append(li);
+    }
+    list.hidden = count===0;empty.hidden = count>0;
+    const countLabel = document.querySelector('[data-item-count]');
+    if(countLabel)countLabel.textContent=`${count} ${count===1?'item':'items'} selected`;
+  }
+  document.querySelectorAll<HTMLButtonElement>('[data-change]').forEach(button=>button.addEventListener('click',()=>{
+    const input = document.getElementById(button.dataset.for||'') as HTMLInputElement|null;
+    if(!input)return;
+    input.value = String(Math.max(0,Math.min(20,clampQuantity(input.value)+Number(button.dataset.change))));
+    updateOrder();
+  }));
+  quantities.forEach(input=>{input.addEventListener('input',updateOrder);input.addEventListener('change',()=>{input.value=String(clampQuantity(input.value));updateOrder();});});
+  updateOrder();
+  const fulfillment = document.querySelectorAll<HTMLInputElement>('[name="fulfillment"]');
+  const pickupOption = document.querySelector<HTMLInputElement>('[name="fulfillment"][value="pickup"]');
+  const deliveryOption = document.querySelector<HTMLInputElement>('[name="fulfillment"][value="delivery"]');
+  if (pickupOption) pickupOption.closest('label')?.remove();
+  if (deliveryOption) {
+    deliveryOption.checked = true;
+    const deliveryLabel = deliveryOption.closest('label');
+    if (deliveryLabel) deliveryLabel.lastChild!.textContent = 'Weekly Virginia delivery';
+  }
+  function updateDelivery(){
+    const delivery = document.querySelector<HTMLInputElement>('[name="fulfillment"]:checked')?.value==='delivery';
+    const fields = document.querySelector<HTMLFieldSetElement>('[data-delivery-fields]');
+    if(fields){fields.hidden = !delivery;fields.disabled = !delivery;}
+  }
+  fulfillment.forEach(input=>input.addEventListener('change',updateDelivery));updateDelivery();
+  document.querySelectorAll<HTMLFormElement>('form[data-kind]').forEach(form=>{
+    form.addEventListener('submit',async(event)=>{
+      event.preventDefault();
+      if(form.dataset.submitted==='true' || form.dataset.pending==='true')return;
+      const button = form.querySelector<HTMLButtonElement>('[type="submit"]');
+      const status = form.querySelector<HTMLElement>('[data-form-message]');
+      if(!button||!status)return;
+      const kind = form.dataset.kind as FormKind;
+      const data = new FormData(form);
+      const read = (name:string)=>String(data.get(name)||'').trim();
+      const payload:Record<string,unknown>={name:read('name'),email:read('email'),website:read('website'),consent:data.get('consent')==='on'};
+      if(kind==='signup')payload.interests = data.getAll('interests');
+      if(kind==='contact'){payload.topic=read('topic');payload.message=read('message');}
+      if(kind==='orders'){
+        payload.items=quantities.filter(input=>clampQuantity(input.value)>0).map(input=>({product:input.dataset.productQuantity,quantity:clampQuantity(input.value),frequency:frequencyControls.get(input.dataset.productQuantity || '')?.value}));
+        if(!(payload.items as unknown[]).length){status.hidden=false;status.className='form-message error';status.textContent='Add at least one item above so we know what you’d like.';status.focus();return;}
+        payload.fulfillment=read('fulfillment');payload.phone=read('phone');payload.notes=read('notes');payload.newsletter=data.get('newsletter')==='on';
+        if(payload.fulfillment==='delivery')payload.address={line1:read('address1'),line2:read('address2'),city:read('city'),state:read('state'),postalCode:read('postalCode')};
+      }
+      const originalText = button.textContent;
+      form.dataset.pending='true';button.disabled=true;button.textContent='Sending…';form.setAttribute('aria-busy','true');status.hidden=true;
+      try{
+        const response = await fetch(`/api/${kind}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+        const result = await response.json();
+        if(!response.ok||!result.ok)throw new Error(result.error||'We couldn’t save that just now. Please try again.');
+        status.className='form-message';status.textContent=result.message+(result.reference?` Your request reference: ${result.reference}.`:'');
+        form.dataset.submitted='true';button.textContent=kind==='orders'?'Order request saved':kind==='signup'?'You’re on the list!':'Message saved';
+        form.querySelectorAll<HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement>('input,textarea,select').forEach(input=>input.disabled=true);
+        form.querySelectorAll<HTMLButtonElement>('[data-change]').forEach(control=>control.disabled=true);
+      }catch(error){status.className='form-message error';status.textContent=error instanceof Error ? error.message:'Something went wrong. Please try again.';button.disabled=false;button.textContent=originalText;}
+      finally{form.dataset.pending='false';form.removeAttribute('aria-busy');status.hidden=false;status.focus();}
+    });
+  });
+</script>

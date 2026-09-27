@@ -1,0 +1,22 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Icon from '../../components/Icon.astro';
+import NewsletterCTA from '../../components/NewsletterCTA.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import {products} from '../../data/products';
+import {flourBlend, recipes} from '../../data/recipes';
+export const prerender = true;
+export function getStaticPaths(){return products.map(product=>({params:{slug:product.slug},props:{product}}));}
+const {product} = Astro.props;
+const recipe = recipes[product.slug];
+const usesFlourBlend = product.slug === 'chocolate-chip-cookies' || product.slug === 'banana-bread';
+---
+<Layout title={product.name} description={`${product.description} Explore this Two Spoons product line and request your first batch.`}>
+  <div class="container"><nav class="breadcrumb" aria-label="Breadcrumb"><a href="/pantry">Our pantry</a><span aria-hidden="true">/</span><span>{product.name}</span></nav>
+  <section class="product-detail"><div class={`product-detail-photo ${product.color}`}><img src={product.image} alt={product.imageAlt} width="960" height="960" fetchpriority="high"/><p class="photo-caption">Illustrated serving idea. Our final recipes are in development.</p></div><div><span class="eyebrow">{product.line}</span><span class="detail-category">IN THE MAKING · {product.name.toUpperCase()}</span><h1>{product.title}</h1><p>{product.description}</p><div class="button-row"><a class="button" href={`/order?product=${product.slug}`}>Buy Now <Icon name="bag" size={18}/></a><a class="text-link" href="/join">Keep me in the loop <Icon size={16}/></a></div><p class="small-note">Send an order request. We’ll confirm availability, pricing, and details with you. No payment required.</p></div></section>
+  <section class="product-facts"><div><span class="eyebrow text-orange">ON OUR KITCHEN COUNTER</span><h2>Here’s what we’re <em>dreaming up.</em></h2><p>{product.detail}</p></div><div><ul class="idea-list">{product.ideas.map(idea=><li><Icon name="sun" size={19}/>{idea}</li>)}</ul><p>Final ingredients, allergens, package sizes, and preparation instructions will be shared before order confirmation. We’re taking our time to get them right.</p></div></section><p class="product-quote">{product.ritual}</p>
+  {recipe && <section class="recipe-section"><span class="eyebrow text-orange">DEVELOPMENT RECIPE</span><h2>{recipe.title}</h2><p class="ingredient-policy">All natural ingredients · No silicones · No parabens · No gums</p><ul>{recipe.ingredients.map(ingredient=><li>{ingredient.name}</li>)}</ul>{recipe.customerAdds && <p><strong>Customer adds:</strong> {recipe.customerAdds}</p>}{recipe.directions && <p><strong>Prepare:</strong> {recipe.directions}</p>}{recipe.note && <p><strong>Kitchen note:</strong> {recipe.note}</p>}</section>}
+  {usesFlourBlend && <section class="recipe-section flour-blend"><span class="eyebrow text-orange">THE FOUNDATION</span><h2>{flourBlend.title}</h2><p class="ingredient-policy">All natural ingredients · No silicones · No parabens · No gums</p><ul>{flourBlend.ingredients.map(ingredient=><li>{ingredient.name}</li>)}</ul><p>{flourBlend.note}</p></section>}
+  <div class="notice"><Icon name="leaf"/><div><strong>Gluten-free, all natural ingredients. Transparency is part of the recipe.</strong><p>No silicones, parabens, or gums. We’re developing our sourcing and kitchen practices alongside our recipes. We don’t claim third-party certification. <a href="/our-approach" style="text-decoration:underline">Learn about our approach.</a></p></div></div>
+  <section class="section"><div class="section-heading"><div><span class="eyebrow text-orange">THERE’S MORE AT THE TABLE</span><h2>Keep exploring.</h2></div><a href="/pantry" class="text-link">The whole pantry <Icon size={17}/></a></div><div class="product-grid">{products.filter(p=>p.slug!==product.slug).map(other=><ProductCard product={other}/>)}</div></section></div><NewsletterCTA/>
+</Layout>

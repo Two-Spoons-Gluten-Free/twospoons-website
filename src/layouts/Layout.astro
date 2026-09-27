@@ -1,0 +1,30 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+import '@fontsource/dm-sans/400.css';
+import '@fontsource/dm-sans/500.css';
+import '@fontsource/dm-sans/600.css';
+import '@fontsource/dm-sans/700.css';
+import '@fontsource/fraunces/500.css';
+import '@fontsource/fraunces/600.css';
+import '@fontsource/fraunces/700.css';
+import '@fontsource/fraunces/600-italic.css';
+interface Props { title: string; description?: string; noindex?: boolean }
+const {title, description='A father–daughter adventure in good food. Discover Two Spoons, a gluten-free pantry in the making in Haymarket, Virginia.', noindex=false} = Astro.props;
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="theme-color" content="#264c3c"/>
+    <title>{title} | Two Spoons</title><meta name="description" content={description}/>
+    {canonical && <link rel="canonical" href={canonical}/>}
+    {noindex && <meta name="robots" content="noindex"/>}
+    <meta property="og:title" content={`${title} | Two Spoons`}/><meta property="og:description" content={description}/><meta property="og:type" content="website"/>
+    {Astro.site && <meta property="og:image" content={new URL('/images/hero.webp',Astro.site).href}/>}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+  </head>
+  <body><a class="skip-link" href="#main">Skip to content</a><Header/><main id="main"><slot/></main><Footer/></body>
+</html>

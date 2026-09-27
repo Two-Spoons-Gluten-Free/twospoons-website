@@ -1,0 +1,7 @@
+---
+interface Props { prefix: string }
+const {prefix}=Astro.props;
+---
+<div class="field"><label for={`${prefix}-name`}>Your name</label><input id={`${prefix}-name`} name="name" type="text" autocomplete="name" placeholder="First and last name" required minlength="2" maxlength="100"/></div>
+<div class="field"><label for={`${prefix}-email`}>Email address</label><input id={`${prefix}-email`} name="email" type="email" autocomplete="email" placeholder="you@example.com" required maxlength="254"/></div>
+<div class="trap" aria-hidden="true"><label for={`${prefix}-website`}>Leave this field empty</label><input id={`${prefix}-website`} name="website" type="text" tabindex="-1" autocomplete="off"/></div>

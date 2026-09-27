@@ -1,0 +1,10 @@
+---
+import Icon from './Icon.astro';
+import type { Product } from '../data/products';
+interface Props { product: Product }
+const {product} = Astro.props;
+---
+<article class={`product-card ${product.color}`}>
+  <a class="product-image-link" href={`/pantry/${product.slug}`} tabindex="-1" aria-hidden="true"><span class="product-badge">IN THE MAKING</span><img src={product.image} alt="" width="960" height="960" loading="lazy"/><span class="product-image-arrow"><Icon size={23}/></span></a>
+  <div class="product-card-text"><span class="eyebrow">{product.line}</span><h3><a href={`/pantry/${product.slug}`}>{product.name}</a></h3><p>{product.short}</p><a class="text-link" href={`/pantry/${product.slug}`}>Take a peek <Icon size={18}/></a></div>
+</article>

@@ -1,0 +1,48 @@
+export const products = [
+  {
+    slug: 'chocolate-chip-cookies', name: 'Chocolate chip cookies', number:'01', color:'peach', image:'/images/cookies-placeholder.webp', imageAlt:'Illustrated chocolate chip cookies on a cream plate',
+    line: 'For the “just one more” moments.', short:'Golden edges, chocolate chips, and a little everyday joy.',
+    title:'A classic cookie, made our way.',
+    description:'We’re developing gluten-free chocolate chip cookies for after-school treats, coffee breaks, and every warm-from-the-oven moment in between.',
+    ideas:['After-school treats','Coffee-break cookies','Fresh-from-the-oven moments'],
+    detail:'Chocolate chip cookies are at the top of our first-batch list. We’re taking our time with every test bake to make sure each one is worth reaching for again.',
+    ritual:'The best part of baking together? Someone always volunteers to taste-test.',
+  },
+  {
+    slug:'banana-bread', name:'Banana bread', number:'02', color:'yellow', image:'/images/banana-bread-placeholder.webp', imageAlt:'Illustrated banana bread loaf on a baking board',
+    line:'A slice of something comforting.', short:'Tender, familiar, and ready for the little pauses in your day.',
+    title:'A good reason to put the kettle on.',
+    description:'We’re developing gluten-free banana bread with the comfort of a well-loved kitchen staple, made for sharing at breakfast or saving for an afternoon snack.',
+    ideas:['Slow breakfasts','Afternoon slices','Something to share'],
+    detail:'Banana bread belongs on our first-batch list for the easy, comforting moments it makes room for. The final recipe and ingredient list will be shared when they are ready.',
+    ritual:'A fresh slice has a way of making an ordinary afternoon feel like an occasion.',
+  },
+  {
+    slug:'all-purpose-seasoning', name:'All-purpose seasoning', number:'03', color:'blue', image:'/images/all-purpose-placeholder.webp', imageAlt:'Illustrated all-purpose seasoning jar with herb motif',
+    line:'A little lift for everyday cooking.', short:'One easy blend for the meals you make on repeat.',
+    title:'A shake of everyday magic.',
+    description:'We’re developing an all-purpose seasoning to bring bright, dependable flavor to the vegetables, proteins, and pantry meals already on your table.',
+    ideas:['Weeknight vegetables','Everyday proteins','Pantry meals'],
+    detail:'Our all-purpose seasoning is being tested as the versatile reach-for-it blend in our first lineup. Final ingredients and allergen information will be shared before order confirmation.',
+    ritual:'Sometimes the smallest addition is what brings the whole meal together.',
+  },
+  {
+    slug:'taco-seasoning', name:'Taco seasoning', number:'04', color:'peach', image:'/images/taco-placeholder.webp', imageAlt:'Illustrated taco seasoning jar with taco motif',
+    line:'For taco night and beyond.', short:'A lively blend for the dinners that bring everyone to the table.',
+    title:'Make room for taco night.',
+    description:'We’re developing a gluten-free taco seasoning for easy weeknight meals, generous bowls, and the joyful make-your-own plates that invite everyone in.',
+    ideas:['Taco-night favorites','Build-your-own bowls','Weeknight dinners'],
+    detail:'Taco seasoning is part of our first lineup because the best meals leave room for everyone to make their plate their own. We’ll share final ingredients and details when they are ready.',
+    ritual:'Pass the toppings, make it yours, and stay at the table a little longer.',
+  },
+  {
+    slug:'cajun-blackening-seasoning', name:'Cajun & blackening seasoning', number:'05', color:'yellow', image:'/images/cajun-blackening-placeholder.webp', imageAlt:'Illustrated Cajun and blackening seasoning jar with flame motif',
+    line:'A little warmth, a lot of flavor.', short:'A bold blend for the meals that need a good kick.',
+    title:'Bring a little heat to the table.',
+    description:'We’re developing a Cajun and blackening seasoning with a full, savory spice profile for the dishes that call for a bolder finish.',
+    ideas:['Blackened favorites','Bold vegetables','Flavor-forward meals'],
+    detail:'Our Cajun and blackening seasoning is in development for cooks who want a confident, flavorful blend close at hand. Final ingredients and allergen information will be shared before order confirmation.',
+    ritual:'A little boldness can turn dinner into the part of the day everyone remembers.',
+  },
+] as const;
+export type Product = typeof products[number];

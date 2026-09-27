@@ -1,0 +1,87 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import NewsletterCTA from '../components/NewsletterCTA.astro';
+
+const recipes = [
+  {
+    blend: 'All-purpose seasoning',
+    title: 'Crispy sheet-pan vegetables',
+    description: 'Toss broccoli, sweet potato, and red onion with olive oil and a generous shake of all-purpose seasoning. Roast until browned at the edges, then finish with a squeeze of lemon.',
+    twist: 'Add chickpeas for a one-pan lunch, or stir the roasted vegetables into warm rice.',
+    color: 'blue',
+  },
+  {
+    blend: 'All-purpose seasoning',
+    title: 'Weeknight chicken cutlets',
+    description: 'Season thin chicken cutlets, sear in a hot skillet, and serve with a simple green salad or roasted potatoes. The blend does the work of building the first layer of flavor.',
+    twist: 'Brush with a little honey and lemon in the final minute for a bright, sticky finish.',
+    color: 'blue',
+  },
+  {
+    blend: 'Taco seasoning',
+    title: 'Build-your-own taco bowls',
+    description: 'Brown ground beef, turkey, or black beans with taco seasoning and a splash of water. Spoon over rice with corn, avocado, salsa, and whatever toppings make your table happy.',
+    twist: 'Turn leftovers into crisp quesadillas or a next-day salad bowl.',
+    color: 'peach',
+  },
+  {
+    blend: 'Taco seasoning',
+    title: 'Warm tortilla soup',
+    description: 'Stir taco seasoning into tomatoes, broth, beans, corn, and shredded chicken. Simmer until cozy, then serve with tortilla chips, lime, and a spoonful of yogurt.',
+    twist: 'Keep it vegetarian with extra beans and roasted sweet potato.',
+    color: 'peach',
+  },
+  {
+    blend: 'Cajun & blackening seasoning',
+    title: 'Blackened fish night',
+    description: 'Coat firm white fish or salmon with Cajun and blackening seasoning, then sear until deeply browned. Pair with rice and a crunchy slaw for an easy dinner with a little spark.',
+    twist: 'Use the same seasoning on shrimp, cauliflower steaks, or grilled corn.',
+    color: 'yellow',
+  },
+  {
+    blend: 'Cajun & blackening seasoning',
+    title: 'Skillet corn and beans',
+    description: 'Cook corn, bell pepper, and black beans in a skillet with a little oil and Cajun seasoning. Finish with cilantro and lime, then tuck into tacos or serve beside grilled chicken.',
+    twist: 'Fold into scrambled eggs for a hearty breakfast-for-dinner.',
+    color: 'yellow',
+  },
+];
+
+const mixTwists = [
+  { title: 'Chocolate chip cookie mix', idea: 'Press a few raspberries or a pinch of flaky salt onto each scoop before baking for a sweet-salty little twist.' },
+  { title: 'Banana bread mix', idea: 'Fold in toasted walnuts, pecans, or certified gluten-free chocolate chips, then save a few banana slices for the top.' },
+];
+---
+<Layout title="Recipes & Pantry Ideas" description="Easy ways to bring Two Spoons seasoning blends and gluten-free pantry mixes to your table.">
+  <div class="container">
+    <header class="page-intro recipes-intro">
+      <span class="eyebrow">A FEW FAVORITES FROM OUR KITCHEN</span>
+      <h1>Good food starts<br/>with a <em>good shake.</em></h1>
+      <p>Simple, flexible ideas for our seasoning blends and baking mixes. Make them exactly as written, then make them your own.</p>
+    </header>
+
+    <section class="recipes-section" aria-labelledby="seasoning-recipes">
+      <div class="section-heading">
+        <div><span class="eyebrow text-orange">SEASONING BLEND IDEAS</span><h2 id="seasoning-recipes">Dinner, with a little <em>more flavor.</em></h2></div>
+        <a href="/pantry" class="text-link">See the pantry <Icon size={17}/></a>
+      </div>
+      <div class="recipe-card-grid">
+        {recipes.map(recipe => <article class={`recipe-card ${recipe.color}`}>
+          <p class="recipe-blend">{recipe.blend}</p>
+          <h3>{recipe.title}</h3>
+          <p>{recipe.description}</p>
+          <p class="recipe-twist"><strong>Make it yours:</strong> {recipe.twist}</p>
+        </article>)}
+      </div>
+    </section>
+
+    <section class="mix-twists" aria-labelledby="mix-twists-heading">
+      <div><span class="eyebrow">A LITTLE EXTRA FOR THE BAKERS</span><h2 id="mix-twists-heading">Tiny twists. <em>Big payoff.</em></h2></div>
+      <div class="mix-twist-list">{mixTwists.map(twist => <article><h3>{twist.title}</h3><p>{twist.idea}</p></article>)}</div>
+    </section>
+
+    <div class="notice recipe-note"><Icon name="leaf"/><div><strong>Kitchen ideas, made for your table.</strong><p>Our first batches are still being developed. We’ll share final ingredients, allergen details, and preparation instructions before confirming an order.</p></div></div>
+  </div>
+  <NewsletterCTA/>
+</Layout>

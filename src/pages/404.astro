@@ -1,0 +1,6 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import Spoons from '../components/Spoons.astro';
+---
+<Layout title="A little lost in the kitchen" noindex={true}><div class="container error-page"><Spoons faces={true}/><span class="eyebrow">404 · THIS ONE’S NOT IN THE RECIPE</span><h1>A little lost<br/><em>in the kitchen?</em></h1><p>That page isn’t here, but there’s plenty of good stuff to explore.</p><div class="button-row"><a class="button" href="/">Back to the beginning <Icon/></a><a class="text-link" href="/pantry">Explore the pantry <Icon size={17}/></a></div></div></Layout>
