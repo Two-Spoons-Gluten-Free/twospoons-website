@@ -93,6 +93,13 @@
       const status = form.querySelector<HTMLElement>('[data-form-message]');
       if(!button||!status)return;
       const kind = form.dataset.kind as FormKind;
+      if (import.meta.env.PUBLIC_STATIC_HOSTING === 'true') {
+        status.className='form-message error';
+        status.textContent='Online submissions are not available on this preview site yet. Please check back soon.';
+        status.hidden=false;
+        status.focus();
+        return;
+      }
       const data = new FormData(form);
       const read = (name:string)=>String(data.get(name)||'').trim();
       const payload:Record<string,unknown>={name:read('name'),email:read('email'),website:read('website'),consent:data.get('consent')==='on'};

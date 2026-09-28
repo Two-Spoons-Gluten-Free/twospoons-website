@@ -1,9 +1,10 @@
 import { defineConfig } from 'astro/config';
-import node from '@astrojs/node';
+
+const isGitHubPages = process.env.GITHUB_ACTIONS === 'true';
 
 export default defineConfig({
-  output: 'server',
+  output: 'static',
   compressHTML: true,
-  adapter: node({ mode: 'standalone' }),
-  site: process.env.PUBLIC_SITE_URL || undefined,
+  site: process.env.PUBLIC_SITE_URL || (isGitHubPages ? 'https://two-spoons-gluten-free.github.io' : undefined),
+  base: isGitHubPages ? '/twospoons-website' : undefined,
 });

@@ -122,12 +122,21 @@ The build includes Astro type and template checking. The test suite covers valid
 
 ## Deployment
 
-The project uses Astro's Node adapter in standalone server mode. A deployment needs Node.js 22.13+, the built `dist/` directory, and a writable persistent `DATA_DIR` for form submissions.
+The site is deployed as a static Astro build through GitHub Pages. Every push to `main` runs the deployment workflow in `.github/workflows/deploy-pages.yml`.
+
+In the repository's GitHub settings, set **Pages** to use **GitHub Actions** as the build and deployment source. The published project URL is:
+
+```text
+https://two-spoons-gluten-free.github.io/twospoons-website/
+```
+
+GitHub Pages cannot run the SQLite-backed form endpoints in `src/lib/submissions.mjs`. The public Pages build keeps the form interfaces visible but tells visitors that online submissions are not available. Connect an external form provider or deploy the app to a Node host before enabling live submissions.
+
+For a server-backed deployment, restore API routes that call `handleSubmission` and use a writable, persistent `DATA_DIR`:
 
 ```sh
 npm ci
 npm run build
-npm run start
 ```
 
 ## Contributing
