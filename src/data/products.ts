@@ -1,6 +1,8 @@
+import { withBase } from '../lib/paths';
+
 export const products = [
   {
-    slug: 'chocolate-chip-cookies', name: 'Chocolate chip cookies', number:'01', color:'peach', image:'/images/cookies-placeholder.webp', imageAlt:'Illustrated chocolate chip cookies on a cream plate',
+    slug: 'chocolate-chip-cookies', name: 'Chocolate chip cookies', number:'01', color:'peach', image:withBase('/images/cookies-placeholder.webp'), imageAlt:'Illustrated chocolate chip cookies on a cream plate',
     line: 'For the “just one more” moments.', short:'Golden edges, chocolate chips, and a little everyday joy.',
     title:'A classic cookie, made our way.',
     description:'We’re developing gluten-free chocolate chip cookies for after-school treats, coffee breaks, and every warm-from-the-oven moment in between.',
@@ -9,7 +11,7 @@ export const products = [
     ritual:'The best part of baking together? Someone always volunteers to taste-test.',
   },
   {
-    slug:'banana-bread', name:'Banana bread', number:'02', color:'yellow', image:'/images/banana-bread-placeholder.webp', imageAlt:'Illustrated banana bread loaf on a baking board',
+    slug:'banana-bread', name:'Banana bread', number:'02', color:'yellow', image:withBase('/images/banana-bread-placeholder.webp'), imageAlt:'Illustrated banana bread loaf on a baking board',
     line:'A slice of something comforting.', short:'Tender, familiar, and ready for the little pauses in your day.',
     title:'A good reason to put the kettle on.',
     description:'We’re developing gluten-free banana bread with the comfort of a well-loved kitchen staple, made for sharing at breakfast or saving for an afternoon snack.',
@@ -18,7 +20,7 @@ export const products = [
     ritual:'A fresh slice has a way of making an ordinary afternoon feel like an occasion.',
   },
   {
-    slug:'all-purpose-seasoning', name:'All-purpose seasoning', number:'03', color:'blue', image:'/images/all-purpose-placeholder.webp', imageAlt:'Illustrated all-purpose seasoning jar with herb motif',
+    slug:'all-purpose-seasoning', name:'All-purpose seasoning', number:'03', color:'blue', image:withBase('/images/all-purpose-placeholder.webp'), imageAlt:'Illustrated all-purpose seasoning jar with herb motif',
     line:'A little lift for everyday cooking.', short:'One easy blend for the meals you make on repeat.',
     title:'A shake of everyday magic.',
     description:'We’re developing an all-purpose seasoning to bring bright, dependable flavor to the vegetables, proteins, and pantry meals already on your table.',
@@ -27,7 +29,7 @@ export const products = [
     ritual:'Sometimes the smallest addition is what brings the whole meal together.',
   },
   {
-    slug:'taco-seasoning', name:'Taco seasoning', number:'04', color:'peach', image:'/images/taco-placeholder.webp', imageAlt:'Illustrated taco seasoning jar with taco motif',
+    slug:'taco-seasoning', name:'Taco seasoning', number:'04', color:'peach', image:withBase('/images/taco-placeholder.webp'), imageAlt:'Illustrated taco seasoning jar with taco motif',
     line:'For taco night and beyond.', short:'A lively blend for the dinners that bring everyone to the table.',
     title:'Make room for taco night.',
     description:'We’re developing a gluten-free taco seasoning for easy weeknight meals, generous bowls, and the joyful make-your-own plates that invite everyone in.',
@@ -36,7 +38,7 @@ export const products = [
     ritual:'Pass the toppings, make it yours, and stay at the table a little longer.',
   },
   {
-    slug:'cajun-blackening-seasoning', name:'Cajun & blackening seasoning', number:'05', color:'yellow', image:'/images/cajun-blackening-placeholder.webp', imageAlt:'Illustrated Cajun and blackening seasoning jar with flame motif',
+    slug:'cajun-blackening-seasoning', name:'Cajun & blackening seasoning', number:'05', color:'yellow', image:withBase('/images/cajun-blackening-placeholder.webp'), imageAlt:'Illustrated Cajun and blackening seasoning jar with flame motif',
     line:'A little warmth, a lot of flavor.', short:'A bold blend for the meals that need a good kick.',
     title:'Bring a little heat to the table.',
     description:'We’re developing a Cajun and blackening seasoning with a full, savory spice profile for the dishes that call for a bolder finish.',
