@@ -34,7 +34,7 @@ jobs:
         run: npm run build
         env:
           GITHUB_ACTIONS: 'true'
-          PUBLIC_STATIC_HOSTING: 'true'
+          PUBLIC_FORMS_ENDPOINT: ${{ vars.PUBLIC_FORMS_ENDPOINT }}
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

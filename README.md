@@ -130,7 +130,7 @@ In the repository's GitHub settings, set **Pages** to use **GitHub Actions** as 
 https://two-spoons-gluten-free.github.io/twospoons-website/
 ```
 
-GitHub Pages cannot run the SQLite-backed form endpoints in `src/lib/submissions.mjs`. The public Pages build keeps the form interfaces visible but tells visitors that online submissions are not available. Connect an external form provider or deploy the app to a Node host before enabling live submissions.
+GitHub Pages cannot run the SQLite-backed form endpoints in `src/lib/submissions.mjs`. The public Pages build sends its forms to a bound Google Sheet Apps Script web app instead. See [Google Apps Script setup](docs/google-apps-script.md) to deploy it and add its URL as the repository variable `PUBLIC_FORMS_ENDPOINT`.
 
 For a server-backed deployment, restore API routes that call `handleSubmission` and use a writable, persistent `DATA_DIR`:
 
